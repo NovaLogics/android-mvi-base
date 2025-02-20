@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MVI Base</string>
+    <string name="home_screen_title">Home</string>
+    <string name="details_screen_title">Details</string>
+</resources>
