@@ -1,4 +1,4 @@
-package novalogics.android.mvibase
+package novalogics.android.mvibase.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
