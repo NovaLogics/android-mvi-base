@@ -33,6 +33,7 @@ coroutineVersion = "1.9.0"
 # Networking
 retrofitVersion = "2.11.0"
 okHttpVersion = "4.12.0"
+okHttpLoggingVersion = "4.9.0"
 gsonVersion = "2.11.0"
 
 # Dependency Injection
@@ -76,10 +77,15 @@ datastore-preferences = { group = "androidx.datastore", name = "datastore-prefer
 material = { group = "com.google.android.material", name = "material", version.ref = "materialVersion" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+# Coroutine
+coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutineVersion" }
+coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutineVersion" }
+
 # Networking
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
 okHttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttpVersion" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttpLoggingVersion" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 
 # Dependency Injection
