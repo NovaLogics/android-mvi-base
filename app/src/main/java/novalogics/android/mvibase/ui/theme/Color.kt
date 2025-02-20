@@ -2,6 +2,9 @@ package novalogics.android.mvibase.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val LEGACY_LIGHT_NAVIGATION_BAR_COLOR: Color = Color(0xFF, 0xFF, 0xFF, 0x63)
+val LEGACY_DARK_NAVIGATION_BAR_COLOR: Color = Color(0x00, 0x00, 0x00, 0x50)
+
 object Light {
     val primary = Color(0xFF6A1B9A) // Deep Purple
     val onPrimary = Color(0xFFFFFFFF) // White text on primary
