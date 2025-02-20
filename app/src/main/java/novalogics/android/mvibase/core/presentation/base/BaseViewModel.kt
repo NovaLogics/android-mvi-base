@@ -1,4 +1,4 @@
-package novalogics.android.mvibase.core.base
+package novalogics.android.mvibase.core.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-import novalogics.android.mvibase.core.state.ViewEffect
-import novalogics.android.mvibase.core.state.ViewIntent
-import novalogics.android.mvibase.core.state.ViewUiState
+import novalogics.android.mvibase.core.arch.state.ViewEffect
+import novalogics.android.mvibase.core.arch.state.ViewIntent
+import novalogics.android.mvibase.core.arch.state.ViewUiState
 
 /**
  * Base ViewModel for managing intents, UI state, and side effects
