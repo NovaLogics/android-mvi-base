@@ -1,4 +1,4 @@
-package novalogics.android.mvibase.ui.theme
+package novalogics.android.mvibase.core.presentation.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package novalogics.android.mvibase.ui.theme
+package novalogics.android.mvibase.core.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
