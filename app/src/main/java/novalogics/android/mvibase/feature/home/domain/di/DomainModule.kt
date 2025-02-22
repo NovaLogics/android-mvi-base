@@ -8,7 +8,7 @@ import novalogics.android.mvibase.core.data.local.datastore.DataStoreRepository
 import novalogics.android.mvibase.feature.home.domain.repository.QuoteRepository
 import novalogics.android.mvibase.feature.home.domain.usecase.CountQuotesUseCase
 import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesFromDbUseCase
-import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesUseCase
+import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesFromApiUseCase
 import novalogics.android.mvibase.feature.home.domain.usecase.InsertQuotesToDbUseCase
 import javax.inject.Singleton
 
@@ -20,8 +20,8 @@ object DomainModule {
     @Singleton
     fun provideGetQuotesUseCase(
         quoteRepository: QuoteRepository
-    ): GetQuotesUseCase {
-        return GetQuotesUseCase(
+    ): GetQuotesFromApiUseCase {
+        return GetQuotesFromApiUseCase(
             quoteRepository = quoteRepository
         )
     }

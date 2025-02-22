@@ -7,7 +7,7 @@ import novalogics.android.mvibase.core.data.remote.Response
 import novalogics.android.mvibase.core.presentation.base.BaseViewModel
 import novalogics.android.mvibase.core.util.getErrorMessage
 import novalogics.android.mvibase.feature.home.domain.usecase.CountQuotesUseCase
-import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesUseCase
+import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesFromApiUseCase
 import novalogics.android.mvibase.feature.home.domain.usecase.InsertQuotesToDbUseCase
 import novalogics.android.mvibase.feature.home.presentation.state.HomeEffect
 import novalogics.android.mvibase.feature.home.presentation.state.HomeIntent
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getQuotesUseCase: GetQuotesUseCase,
+    private val getQuotesFromApiUseCase: GetQuotesFromApiUseCase,
     private val countQuotesUseCase: CountQuotesUseCase,
     private val insertQuotesToDbUseCase: InsertQuotesToDbUseCase,
 ) : BaseViewModel<HomeIntent, HomeUiState, HomeEffect>(HomeUiState()) {
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             updateState { copy(isLoading = true) }
             try {
-                when (val response = getQuotesUseCase.invoke()) {
+                when (val response = getQuotesFromApiUseCase.invoke()) {
                     is Response.Success -> {
                         updateState { copy(isLoading = false, quotes = response.data) }
                         insertQuotesToDbUseCase.execute(response.data)
