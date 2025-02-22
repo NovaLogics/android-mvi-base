@@ -5,6 +5,12 @@ import novalogics.android.mvibase.app.navigation.NavigationArgs.ITEM_ID
 sealed class Screens(val route: String) {
     data object Home : Screens(NavigationRoutes.HOME)
     data object Details : Screens(NavigationRoutes.DETAILS)
+
+    data class ItemDetails(val itemId: String) : Screens("${NavigationRoutes.DETAILS}/$itemId") {
+        companion object {
+            fun createRoute(itemId: String) = "${NavigationRoutes.DETAILS}/$itemId"
+        }
+    }
 }
 
 object NavigationRoutes {
