@@ -6,10 +6,10 @@ import novalogics.android.mvibase.feature.home.domain.model.Quote
 import novalogics.android.mvibase.feature.home.domain.repository.QuoteRepository
 import javax.inject.Inject
 
-class GetQuotesUseCase @Inject constructor(
+class GetQuotesFromApiUseCase @Inject constructor(
     private val quoteRepository: QuoteRepository
 ) {
     suspend operator fun invoke(quoteLimit: Int = QUOTE_LIMIT): Response<List<Quote>> {
-        return quoteRepository.getQuotes(quoteLimit)
+        return quoteRepository.fetchQuotesFromApi(quoteLimit)
     }
 }

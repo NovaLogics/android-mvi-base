@@ -6,7 +6,9 @@ import kotlinx.coroutines.launch
 import novalogics.android.mvibase.core.data.remote.Response
 import novalogics.android.mvibase.core.presentation.base.BaseViewModel
 import novalogics.android.mvibase.core.util.getErrorMessage
-import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesUseCase
+import novalogics.android.mvibase.feature.home.domain.usecase.CountQuotesUseCase
+import novalogics.android.mvibase.feature.home.domain.usecase.GetQuotesFromApiUseCase
+import novalogics.android.mvibase.feature.home.domain.usecase.InsertQuotesToDbUseCase
 import novalogics.android.mvibase.feature.home.presentation.state.HomeEffect
 import novalogics.android.mvibase.feature.home.presentation.state.HomeIntent
 import novalogics.android.mvibase.feature.home.presentation.state.HomeUiState
@@ -15,11 +17,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getQuotesUseCase: GetQuotesUseCase,
+    private val getQuotesFromApiUseCase: GetQuotesFromApiUseCase,
+    private val countQuotesUseCase: CountQuotesUseCase,
+    private val insertQuotesToDbUseCase: InsertQuotesToDbUseCase,
 ) : BaseViewModel<HomeIntent, HomeUiState, HomeEffect>(HomeUiState()) {
 
     init {
         handleIntent(HomeIntent.FetchLiveQuotes)
+        observeTotalQuotes()
     }
 
     override fun handleIntent(intent: HomeIntent) {
@@ -34,11 +39,15 @@ class HomeViewModel @Inject constructor(
      */
     private fun fetchLiveQuotes() {
         viewModelScope.launch {
-            updateState { copy(isLoading = false) }
+            updateState { copy(isLoading = true) }
             try {
-                when (val response = getQuotesUseCase.invoke()) {
+                when (val response = getQuotesFromApiUseCase.invoke()) {
                     is Response.Success -> {
                         updateState { copy(isLoading = false, quotes = response.data) }
+                        insertQuotesToDbUseCase.execute(response.data)
+
+                        val totalQuotesLoaded = uiState.value.totalQuotesLoaded + response.data.count()
+                        countQuotesUseCase.saveTotalQuotesLoaded(totalQuotesLoaded)
                     }
                     is Response.Error -> {
                         updateState { copy(isLoading = false) }
@@ -52,6 +61,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun observeTotalQuotes() {
+        viewModelScope.launch {
+            countQuotesUseCase.getTotalQuotesLoaded().collect { count ->
+                updateState { copy(totalQuotesLoaded = count) }
+            }
+        }
+    }
+
     /**
      * Handles item click events.
      * @param itemId The ID of the clicked item.
@@ -59,7 +76,7 @@ class HomeViewModel @Inject constructor(
     private fun handleItemClick(itemId: String) {
         viewModelScope.launch {
             sendEffect { HomeEffect.ShowMessage("Quote Id: $itemId") }
-            sendEffect { HomeEffect.NavigateToItemDetail }
+            sendEffect { HomeEffect.NavigateToItemDetail(itemId) }
         }
     }
 

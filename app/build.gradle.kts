@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -23,6 +26,23 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Read from local.properties
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(FileInputStream(localPropertiesFile))
+        }
+        val apiKeyExample: String = localProperties.getProperty("API_KEY", "")
+
+        manifestPlaceholders["API_KEY"] = apiKeyExample
+        buildConfigField("String", "API_KEY", "\"$apiKeyExample\"")
+
+        // Read from gradle.properties
+        buildConfigField("String", "APP_DATABASE_NAME", "\"${project.properties["APP_DATABASE_NAME"]}\"")
+        buildConfigField("String", "APP_DATASTORE_FILE_NAME", "\"${project.properties["APP_DATASTORE_FILE_NAME"]}\"")
+        buildConfigField("String", "BASE_URL_QUOTES", "\"${project.properties["BASE_URL_QUOTES"]}\"")
+        buildConfigField("String", "ENDPOINT_RANDOM_QUOTES", "\"${project.properties["ENDPOINT_RANDOM_QUOTES"]}\"")
     }
 
     buildTypes {
@@ -43,6 +63,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -73,10 +94,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
 
-    // Room Database & DataStore
+    // Database & DataStore
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.sqlcipher)
+    implementation(libs.sqlite.ktx)
     implementation(libs.datastore.preferences)
 
     // Material and UI Components

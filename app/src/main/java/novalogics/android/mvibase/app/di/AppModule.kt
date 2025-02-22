@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import novalogics.android.mvibase.app.MainApplication
 import javax.inject.Singleton
@@ -16,6 +17,6 @@ object AppModule {
     @Provides
     @Singleton
     fun provideApplicationContext(
-        app: MainApplication
-    ): Context = app.applicationContext
+        @ApplicationContext context: Context
+    ): Context = context
 }

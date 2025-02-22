@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import novalogics.android.mvibase.R
+import novalogics.android.mvibase.app.navigation.NavigationRoutes
+import novalogics.android.mvibase.app.navigation.Screens
 import novalogics.android.mvibase.core.presentation.components.CustomProgressIndicator
 import novalogics.android.mvibase.core.presentation.components.ErrorMessageCard
 import novalogics.android.mvibase.core.presentation.theme.MVIBaseTheme
@@ -47,9 +50,8 @@ import novalogics.android.mvibase.feature.home.presentation.state.HomeUiState
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
     viewModel: HomeViewModel = hiltViewModel<HomeViewModel>(),
-    onNavigateToDetail: () -> Unit
+    onNavigateToDetail: (Screens) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -72,7 +74,7 @@ fun HomeScreen(
 @Composable
 fun HandleSideEffects(
     viewModel: HomeViewModel,
-    onNavigateToDetail: () -> Unit
+    onNavigateToDetail: (Screens) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -80,7 +82,7 @@ fun HandleSideEffects(
         viewModel.uiEffect.collect { effect ->
             when (effect) {
                 is HomeEffect.NavigateToItemDetail -> {
-                    onNavigateToDetail()
+                    onNavigateToDetail(Screens.ItemDetails(itemId = effect.itemId))
                 }
                 is HomeEffect.ShowMessage -> {
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
@@ -107,7 +109,9 @@ fun ScreenUiContent(
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
-                modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                )
             )
         }
     ) { paddingValues ->
@@ -118,7 +122,7 @@ fun ScreenUiContent(
             contentAlignment = Alignment.Center
         ) {
             Column {
-                AppHeader(onFetchOnlineQuotes)
+                AppHeader(uiState.totalQuotesLoaded,onFetchOnlineQuotes)
                 ItemList(uiState.quotes, onItemClick)
             }
 
@@ -135,6 +139,7 @@ fun ScreenUiContent(
  */
 @Composable
 fun AppHeader(
+    totalQuotesCount: Int,
     onFetchOnlineQuotes: () -> Unit
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
@@ -148,7 +153,12 @@ fun AppHeader(
                 .fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Total Quotes Loaded: $totalQuotesCount",
+            color = MaterialTheme.colorScheme.secondary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)
+        )
 
         Button(
             onClick = onFetchOnlineQuotes,
@@ -168,6 +178,8 @@ fun AppHeader(
             )
         }
     }
+
+    Spacer(modifier = Modifier.height(4.dp))
 }
 
 /**
