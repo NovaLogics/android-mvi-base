@@ -7,5 +7,6 @@ import novalogics.android.mvibase.feature.home.domain.model.Quote
 data class HomeUiState(
     val isLoading: Boolean = false,
     val quotes: List<Quote> = emptyList(),
+    val totalQuotesLoaded: Int = 0,
     val error: String = emptyString(),
 ) : ViewUiState
