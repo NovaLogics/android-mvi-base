@@ -97,7 +97,7 @@ fun MVIBaseTheme(
         ApplyEdgeToEdgeSettings(
             view = view,
             isDarkTheme = systemTheme,
-            statusBarColor = colorScheme.background
+            statusBarColor = colorScheme.surface
         )
     }
 
