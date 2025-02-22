@@ -10,6 +10,6 @@ class GetQuotesUseCase @Inject constructor(
     private val quoteRepository: QuoteRepository
 ) {
     suspend operator fun invoke(quoteLimit: Int = QUOTE_LIMIT): Response<List<Quote>> {
-        return quoteRepository.getQuotes(quoteLimit)
+        return quoteRepository.fetchQuotesFromApi(quoteLimit)
     }
 }
