@@ -70,6 +70,7 @@ Clean Feature MVI Architecture <br>
 ├── 📄 MainActivity.kt                // Main entry point of the app (UI layer)
 └── 📄 MainApplication.kt             // Application class for app initialization
 
+
 📁 core
 │
 ├── 📁 arch
@@ -117,6 +118,7 @@ Clean Feature MVI Architecture <br>
       ├── 📄 Constants.kt             // App constants
       ├── 📄 Extensions.kt            // Kotlin extension functions
       └── 📄 TrustManager.kt          // Handles SSL configurations
+
 
 📁 feature
 │
@@ -265,6 +267,8 @@ API/Room DB → Repository → UseCase → ViewModel → Screen (UI)
 - The **View** displays the UI and sends Intents
 
 - The **Intent** represents user actions
+
+<br/>
 
 ```plaintext
 View → Intent → Model → State → View
