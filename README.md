@@ -57,13 +57,13 @@ Clean Feature MVI Architecture <br>
 
 ```plaintext
 📁 app
-
+│
 ├── 📁 di
 │      ├── 📄 AppModule.kt            // Dependency injection for app-level modules
-│      └── 📄 NavigationModule.kt     // Provides navigation-related dependencies
+│      └── 📄 NavigationModule.kt     // Provides navigation related dependencies
 │
 ├── 📁 navigation
-│      ├── 📄 AppNavigation.kt        // Handles app-wide navigation logic
+│      ├── 📄 AppNavigation.kt        // Handles app wide navigation logic
 │      ├── 📄 NavGraph.kt             // Defines the navigation graph
 │      └── 📄 Screens.kt              // Contains screen route definitions
 │
@@ -71,12 +71,12 @@ Clean Feature MVI Architecture <br>
 └── 📄 MainApplication.kt             // Application class for app initialization
 
 📁 core
-
+│
 ├── 📁 arch
 │   ├── 📁 state
 │   │   ├── 📄 ViewIntent.kt          // Represents user intentions (actions)
 │   │   ├── 📄 ViewUiState.kt        // Represents the UI state
-│   │   └── 📄 ViewEffect.kt         // Represents one-time UI events
+│   │   └── 📄 ViewEffect.kt         // Represents one time UI events
 │   └── UiState.kt                   // Base UI state interface
 │
 ├── 📁 data
@@ -119,7 +119,7 @@ Clean Feature MVI Architecture <br>
       └── 📄 TrustManager.kt          // Handles SSL configurations
 
 📁 feature
-
+│
 ├── 📁 home
 │   ├── 📁 data
 │   │   ├── 📁 di
@@ -232,6 +232,7 @@ Screen (UI) → ViewModel → UseCase → Repository → API/Room DB
 
 <br/>
 
+#
 ### 🔄 API/DB → Screen Flow (Unidirectional)
 ```plaintext
 API/Room DB → Repository → UseCase → ViewModel → Screen (UI)
@@ -252,6 +253,31 @@ API/Room DB → Repository → UseCase → ViewModel → Screen (UI)
 #### ViewModel → Screen:
 
 - The ViewModel emits a new State containing the data, which is observed by the Screen to update the UI
+
+
+<br/>
+
+#
+### 🔄 Model-View-Intent unidirectional data flow 🔄
+
+- The **Model** manages the state
+
+- The **View** displays the UI and sends Intents
+
+- The **Intent** represents user actions
+
+```plaintext
+View → Intent → Model → State → View
+```
+- **View → Intent:** The View sends an Intent (user action) to the Model
+
+- **Intent → Model:** The Model processes the Intent
+
+- **Model → State:** The Model updates the State based on the Intent
+
+- **State → View:** The View receives the new State and updates itself
+
+<br/>
 
 ---
 
